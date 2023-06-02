@@ -1,8 +1,8 @@
 import requests
 import shotgun_api3
 
-response = requests.get("https://api.github.com/orgs/yoyodyne-research/actions/secrets/SCRIPT_NAME")
-print(response.status)
+r = requests.get("https://api.github.com/orgs/yoyodyne-research/actions/secrets/SCRIPT_NAME")
+print(r.json())
 #api_key = requests.get("https://api.github.com/orgs/yoyodyne-research/actions/secrets/API_KEY")
 
 # class ShotgunHandler(object):
