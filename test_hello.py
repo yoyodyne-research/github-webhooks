@@ -1,6 +1,7 @@
 import requests
 import shotgun_api3
 
+base_url = "https://thr3dcgi-staging.shotgunstudio.com" 
 r = requests.get("https://api.github.com/orgs/yoyodyne-research/actions/secrets/SCRIPT_NAME")
 print(r.json())
 #api_key = requests.get("https://api.github.com/orgs/yoyodyne-research/actions/secrets/API_KEY")
@@ -24,8 +25,8 @@ print(r.json())
 #           )
 
 #       return ShotgunHandler._sg
-    
-    
+
+
 def test_hello():
   print("hello.")
 
