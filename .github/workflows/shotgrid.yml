@@ -17,6 +17,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
+      BASE_URL: https://thr3dcgi-staging.shotgunstudio.com
       SCRIPT_NAME: ${{ secrets.SCRIPT_NAME }}
       API_KEY: ${{ secrets.API_KEY }}
     steps:

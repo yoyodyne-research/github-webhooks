@@ -28,12 +28,8 @@ class ShotgunHandler(object):
       return ShotgunHandler._sg
 
 
-def test_hello():
-  print("hello.")
-
-
 def test_context():
-  print(shotgun_api3)
+  ticket_id = 8558
   sg = ShotgunHandler.get_conn()
-  print(sg)
-  
+  ticket = sg.find_one("Ticket", [["id", "is", ticket_id]], ["sg_code_review"])
+  print(ticket)
