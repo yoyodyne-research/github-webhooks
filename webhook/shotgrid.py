@@ -82,16 +82,19 @@ def notify_pull_request_updated(ticket_num, pr_url, changed, pr_title, pr_body, 
         return
 
     # Note: This could miss an edge case where the reviewer is assigned in GH but not in SG.
-    # if not sg_ticket["sg_code_review"]:
-    #     logger.warning(
-    #             "Code Review is not assigned for Ticket #%d, not posting edited Pull Request "
-    #             "description" % ticket_num
-    #     )
-    #     return
+    if not sg_ticket["sg_code_review"]:
+        # logger.warning(
+        #         "Code Review is not assigned for Ticket #%d, not posting edited Pull Request "
+        #         "description" % ticket_num
+        # )
+        # return
+        assignee = None
+    else:
+        assignee = sg_ticket["sg_code_review"]["name"]
 
     # Add comment with the PR comment
     reply_text = constants.CR_EDITED_REPLY_TEMPLATE.format(
-                     assignee=sg_ticket["sg_code_review"]["name"],
+                     assignee=assignee,
                      url=pr_url,
                      field=" and ".join(changed),
                      title=pr_title,
