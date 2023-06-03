@@ -5,7 +5,7 @@ import shotgun_api3
 
 from . import constants
 
-logging.basicConfig()
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
 
 sg = shotgun_api3.Shotgun(
