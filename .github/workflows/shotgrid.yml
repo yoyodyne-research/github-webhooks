@@ -6,11 +6,10 @@ name: Python application
 on:
 #   push:
 #     branches: [ "main" ]
-#   pull_request:
-#     branches: [ "main" ]
-  pull_request_review:
-    types: [submitted]
-    
+  pull_request:
+    branches: [ "main" ]
+  # pull_request_review:
+  #   types: [submitted]
 permissions:
   contents: read
 
@@ -23,6 +22,8 @@ jobs:
       SCRIPT_NAME: ${{ secrets.SCRIPT_NAME }}
       API_KEY: ${{ secrets.API_KEY }}
       PYTHONPATH: src
+      TITLE: ${{ github.event.pull_request.title }}
+      URL: ${{ github.event.pull_request.html_url }}
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
