@@ -3,10 +3,7 @@ import os
 import re
 import shotgun_api3
 
-from .constants import APP_SETTINGS
-from .constants import CR_ASSIGNED_REPLY_TEMPLATE
-from .constants import CR_EDITED_REPLY_TEMPLATE
-from .constants import CR_SUBMITTED_REPLY_TEMPLATE
+from . import constants
 
 logging.basicConfig()
 logger = logging.getLogger()
@@ -41,7 +38,7 @@ def assign_code_review(ticket_num, to_sg_user, pr_title, pr_body, pr_url, by_sg_
     logger.debug("Updated SG Ticket %d: %s" % (ticket_num, result))
     # Add comment with the PR comment
     sg_user_name = to_sg_user.get("name", "Unknown")
-    reply_text = CR_ASSIGNED_REPLY_TEMPLATE.format(
+    reply_text = constants.CR_ASSIGNED_REPLY_TEMPLATE.format(
                     assignee=sg_user_name,
                     url=pr_url,
                     title=pr_title,
@@ -93,7 +90,7 @@ def notify_pull_request_updated(ticket_num, pr_url, changed, pr_title, pr_body, 
         return
 
     # Add comment with the PR comment
-    reply_text = CR_EDITED_REPLY_TEMPLATE.format(
+    reply_text = constants.CR_EDITED_REPLY_TEMPLATE.format(
                      assignee=sg_ticket["sg_code_review"]["name"],
                      url=pr_url,
                      field=" and ".join(changed),
@@ -115,7 +112,7 @@ def submit_code_review(ticket_num, sg_user, status, review_body, url):
     """
     # Add Reply to Ticket with the Review comment.
     sg_user_name = sg_user.get("name", "Unknown")
-    reply_text = CR_SUBMITTED_REPLY_TEMPLATE.format(
+    reply_text = constants.CR_SUBMITTED_REPLY_TEMPLATE.format(
                     status=status.upper(),
                     reviewer=sg_user_name,
                     url=url,
@@ -153,7 +150,7 @@ def get_component(name):
     :returns dict: Shotgun component entity dict or None.
     """
     return sg.find_one(
-            APP_SETTINGS["COMPONENT_ENTITY_TYPE"],
+            constants.APP_SETTINGS["COMPONENT_ENTITY_TYPE"],
             [["code", "is", name]]
     )
 
@@ -213,7 +210,7 @@ def get_project_from_repo(repo_name):
     :param str repo_name: Github repo name.
     :returns dict: Shotgun Project entity dict.
     """
-    return APP_SETTINGS["THR3D_DEV_PROJECT_ENTITY"]
+    return constants.APP_SETTINGS["THR3D_DEV_PROJECT_ENTITY"]
 
 
 def get_sg_user(github_user):
@@ -391,7 +388,7 @@ def mark_release_deleted(component_name, version_num):
     """
     filters = [
         ["code", "is", version_num],
-        ["sg_component.%s.code" % APP_SETTINGS["COMPONENT_ENTITY_TYPE"], "is", component_name]
+        ["sg_component.%s.code" % constants.APP_SETTINGS["COMPONENT_ENTITY_TYPE"], "is", component_name]
     ]
     sg_release = sg.find_one("Release", filters)
 
@@ -423,7 +420,7 @@ def create_component(component_name, description, status):
         "description": description,
         "sg_status_list": status
     }
-    sg_component = sg.create(APP_SETTINGS["COMPONENT_ENTITY_TYPE"], payload)
+    sg_component = sg.create(constants.APP_SETTINGS["COMPONENT_ENTITY_TYPE"], payload)
     logger.info("Created Component: %s" % sg_component)
 
 
@@ -443,5 +440,5 @@ def update_component_status(component_name, status):
     payload = {
         "sg_status_list": status
     }
-    sg_component = sg.update(APP_SETTINGS["COMPONENT_ENTITY_TYPE"], sg_component["id"], payload)
+    sg_component = sg.update(constants.APP_SETTINGS["COMPONENT_ENTITY_TYPE"], sg_component["id"], payload)
     logger.info("Updated Component status: %s" % sg_component)
