@@ -6,6 +6,8 @@ from webhook import shotgrid
 def pull_request():
     pr_title = os.getenv("TITLE")
     ticket_num = shotgrid.parse_ticket_from_str(pr_title)
+    if not ticket_num:
+        return
     sg_user = shotgrid.get_user_from_gh_login("rhaleblian")
     pr_url = os.getenv("URL")
     changed = ["pr_title", "pr_url"]
