@@ -22,6 +22,7 @@ jobs:
       BASE_URL: https://thr3dcgi-staging.shotgunstudio.com
       SCRIPT_NAME: ${{ secrets.SCRIPT_NAME }}
       API_KEY: ${{ secrets.API_KEY }}
+      PYTHONPATH: src
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -44,4 +45,4 @@ jobs:
 #         pytest -s
     - name: handle event
       run: |
-        python scripts/pull_request_review_submitted.py
+        python scripts/event.py pull_request_review submitted
