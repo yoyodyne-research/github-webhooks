@@ -1,3 +1,3 @@
 # github-webhooks
 
-Here's something for Jay to find satisfatory.
+Here's something for Jay to find satisfactory.
