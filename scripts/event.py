@@ -1,6 +1,6 @@
 import os
 
-import shotgrid
+from webhook import shotgrid
 
 
 def pull_request():

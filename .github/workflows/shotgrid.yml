@@ -17,7 +17,7 @@ jobs:
       BASE_URL: https://thr3dcgi-staging.shotgunstudio.com
       SCRIPT_NAME: ${{ secrets.SCRIPT_NAME }}
       API_KEY: ${{ secrets.API_KEY }}
-      PYTHONPATH: src
+      PYTHONPATH: .
       TITLE: ${{ github.event.pull_request.title }}
       URL: ${{ github.event.pull_request.html_url }}
     steps:
