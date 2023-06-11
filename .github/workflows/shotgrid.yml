@@ -4,13 +4,8 @@
 name: Python application
 
 on:
-#   push:
-#     branches: [ "main" ]
-#   pull_request:
-#     branches: [ "main" ]
-  pull_request_review:
-    types: [submitted]
-    
+  pull_request:
+    branches: [ "main" ]
 permissions:
   contents: read
 
@@ -22,7 +17,9 @@ jobs:
       BASE_URL: https://thr3dcgi-staging.shotgunstudio.com
       SCRIPT_NAME: ${{ secrets.SCRIPT_NAME }}
       API_KEY: ${{ secrets.API_KEY }}
-      PYTHONPATH: src
+      PYTHONPATH: .
+      TITLE: ${{ github.event.pull_request.title }}
+      URL: ${{ github.event.pull_request.html_url }}
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -34,6 +31,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest requests shotgun_api3
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Handle event
+      run: |
+        python scripts/event.py
 #     - name: Lint with flake8
 #       run: |
 #         # stop the build if there are Python syntax errors or undefined names
@@ -43,6 +43,3 @@ jobs:
 #     - name: Test with pytest
 #       run: |
 #         pytest -s
-    - name: handle event
-      run: |
-        python scripts/event.py pull_request_review submitted
