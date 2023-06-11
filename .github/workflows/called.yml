@@ -7,3 +7,9 @@ on:
     secrets:
       envPAT:
         required: true
+
+jobs:
+  called_workflow:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo hello
